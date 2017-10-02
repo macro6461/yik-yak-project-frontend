@@ -4,13 +4,16 @@ document.addEventListener('DOMContentLoaded', function(){
   .then(json => initBindingsAndEventListeners(json))
 })
 
+var user;
+var baseUrl;
+
 function initBindingsAndEventListeners(json){
   var results = json
   User.all = results
   var usersForm = document.getElementById('new-user-form')
   debugger;
   usersForm.addEventListener('submit', handleAddUser())
-  fetchAndLoadUsers(results)
+  fetchAndLoadUsers(user)
 }
 
 function handleAddUser() {
@@ -21,19 +24,29 @@ function handleAddUser() {
   const body = {name: name.value, username: username.value, email: email.value}
   debugger;
   createUser(body)
-  .then(user => User.all.push(user) )
-  .then( () => name.value = '' )
-  .then( () => username.value = '' )
-  .then( () => email.value = '' )
 }
 
 function createUser(body) {
   console.log(body)
   debugger;
-  var user = new User({body})
+  user = new User(body)
   // user.name = body.name
   // user.username = body.username
   // user.email = body.email
+  return user
 }
+
+function fetchAndLoadUsers(user) {
+  var body = user.body
+  debugger;
+    const userCreateParams = {
+      method: 'POST',
+      headers: {
+        'Content-Type':'application/json'
+      },
+      body: JSON.stringify({body})
+    }
+    return fetch('http://localhost:3000/api/v1/users', userCreateParams).then(resp => resp.json())
+  }
 
 const adap = new UsersAdapter()
