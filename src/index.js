@@ -39,9 +39,11 @@ function createUser(body) {
 }
 
   function render(json) {
+    var usersContainer = document.getElementById("users-container")
     debugger;
     json.forEach(function(user){
-      document.body.append(`<li data-userid='${user.id}' data-props='${user}' class='user-element'>${user.body} <i data-action='delete-user' class="em em-scream_cat"></i></li>`)
+      usersContainer.innerHTML += `<li data-userid='${user.id}' class='user-element'> ${user.username} <i data-action='delete-user' class="em em-scream_cat"></i></li>`
+      debugger;
     })
   }
 
