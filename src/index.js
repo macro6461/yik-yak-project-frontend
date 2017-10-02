@@ -37,10 +37,13 @@ function handleAddUser(e) {
   e.preventDefault()
   const body = {name: personName.value, username: username.value, email: email.value}
   createUser(body)
+  debugger;
+  document.cookie = `username=${user.username}`
   postNewUser(user)
 }
 
 function createUser(body) {
+  debugger
   console.log(body)
   user = new User(body)
   // user.name = body.name
@@ -92,5 +95,7 @@ function postNewUser(user) {
     debugger;
     usersContainer.innerHTML += `<li data-userid='${json.id}' class='user-element'> ${json.username} <i data-action='delete-user' class="em em-scream_cat"></i></li>`
   }
+
+
 
 const adap = new UsersAdapter()

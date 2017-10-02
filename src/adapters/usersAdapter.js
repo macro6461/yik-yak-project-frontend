@@ -8,6 +8,7 @@ class UsersAdapter {
   }
 
   createUser(body) {
+    debugger;
     const userCreateParams = {
       method: 'POST',
       headers: {
