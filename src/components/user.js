@@ -1,12 +1,10 @@
 class User {
   constructor(userJSON) {
-    debugger;
     this.body = userJSON
     this.id = userJSON.id
   }
 
   fetchAndLoadUsers(results) {
-    debugger;
     this.adapter.getUsers()
     .then( usersJSON => usersJSON.forEach(function(user){ this.users.push( new User(user) )}))
       .then( this.render.bind(this) )

@@ -4,12 +4,10 @@ class UsersAdapter {
   }
 
   getUsers() {
-    debugger
     fetch(this.baseUrl).then(response => response.json())
   }
 
   createUser(body) {
-    debugger
     const userCreateParams = {
       method: 'POST',
       headers: {
