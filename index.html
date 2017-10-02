@@ -6,20 +6,38 @@
     <link rel="stylesheet" type="text/css" href="styles/style.css">
   </head>
   <body>
-    <div id="modalDiv">
-    <div class="container">
-      <div id="new-user-container">
-        <form id="new-user-form">
-          name: <input type="text" name="name-body" id="person-name">
-          <br>
-          username: <input type="text" name="username-body" id="username">
-          <br>
-          email: <input type="text" name="email-body" id="email">
-          <br>
-          <input id="submit" type="submit" value="Save user">
-        </form>
-      </div>
+
+
+    <div id="newPost">
+      <form id="new-post-form">
+        <br>
+        <input type="text" name="content-body" id="content" value="new post...">
+        <br>
+        <input id="postSubmit" type="submit" value="Post">
+      </form>
     </div>
+
+    <div id="posts">
+    </div>
+
+
+    <div id="modalDiv">
+      <h3>Sign up or Sign In</h3>
+      <div id="insideModal">
+        <div class="container">
+          <div id="new-user-container">
+            <form id="new-user-form">
+              name: <input type="text" name="name-body" id="person-name">
+              <br>
+              username: <input type="text" name="username-body" id="username">
+              <br>
+              email: <input type="text" name="email-body" id="email">
+              <br>
+              <input id="submit" type="submit" value="Save user">
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
       <div id="users-container">
 

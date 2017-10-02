@@ -1,6 +1,5 @@
 body {
-   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-   font-weight: 300;
+   font-family: "Helvetica", Helvetica, Arial, "Lucida Grande", sans-serif;
    line-height: 1.6em;
    font-size: 1.3em;
 }
@@ -20,16 +19,48 @@ input {
   top: 20%;
 }
 
-.container {
-  width: 960px;
-  margin:auto;
-  margin-top:50px;
-}
-
 ul {
   padding-left: 20px;
 }
 
 .delete-user-link {
   color:red;
+}
+
+#modalDiv {
+  left: 28.5%;
+  z-index: 1;
+  border: 1px black dotted;
+  color: #0019b2;
+  background-color: #ccffd7;
+  position: fixed;
+  width: 650px;
+  text-align: center;
+  margin-top: 12%;
+  padding-top: 3px;
+  padding-bottom: 15px;
+}
+
+#insideModal {
+  margin: auto;
+  display: block;
+  width: 480px;
+}
+
+#submit {
+  border: 1px black dotted;
+  font-size: 16px;
+  border-radius: 10px;
+  margin-top: 20px;
+  margin-bottom: 11px;
+}
+
+#submit:hover {
+  background-color: #777777;
+}
+
+input {
+  border-radius: 10px;
+  margin: 5px;
+  input-focus: none;
 }
