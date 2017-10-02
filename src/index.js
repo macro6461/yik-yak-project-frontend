@@ -1,23 +1,21 @@
 document.addEventListener('DOMContentLoaded', function(){
+  var usersForm = document.getElementById('new-user-form')
+  var submitButton = document.getElementById('submit')
+  submitButton.addEventListener('click', handleAddUser)
+
   var baseUrl = 'http://localhost:3000/api/v1/users'
-  debugger;
   fetch(baseUrl).then(res => res.json())
   .then(json => render(json))
-  .then(json => initBindingsAndEventListeners(json))
+  debugger;
 })
+
+
 
 var user;
 var baseUrl;
 
-function initBindingsAndEventListeners(json){
-  var results = json
-  User.all = results
-  var usersForm = document.getElementById('new-user-form')
-  debugger;
-  usersForm.addEventListener('submit', handleAddUser())
-}
-
-function handleAddUser() {
+function handleAddUser(e) {
+  e.preventDefault()
   var name = document.getElementById('new-user-form').name
   debugger;
   var username = document.getElementById('username')
@@ -31,7 +29,7 @@ function handleAddUser() {
 function createUser(body) {
   console.log(body)
   debugger;
-  user = new User({body})
+  user = new User(body)
   // user.name = body.name
   // user.username = body.username
   // user.email = body.email
@@ -40,10 +38,8 @@ function createUser(body) {
 
   function render(json) {
     var usersContainer = document.getElementById("users-container")
-    debugger;
     json.forEach(function(user){
       usersContainer.innerHTML += `<li data-userid='${user.id}' class='user-element'> ${user.username} <i data-action='delete-user' class="em em-scream_cat"></i></li>`
-      debugger;
     })
   }
 

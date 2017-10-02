@@ -1,6 +1,7 @@
 class User {
   constructor(userJSON) {
-    this.body = userJSON.body
+    debugger;
+    this.body = userJSON
     this.id = userJSON.id
   }
 
