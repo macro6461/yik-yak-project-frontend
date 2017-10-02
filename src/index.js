@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function(){
   loadUsers()
 })
 
+var errorDiv;
 var user;
 var baseUrl;
 var personName;
@@ -24,7 +25,6 @@ function loadUsers(){
   personName = document.getElementById('person-name')
   username = document.getElementById('username')
   email = document.getElementById('email')
-  debugger;
   baseUrl = 'http://localhost:3000/api/v1/users'
   fetch(baseUrl).then(res => res.json())
   .then(json => render(json))
@@ -50,7 +50,6 @@ function createUser(body) {
 }
 
   function render(json) {
-    debugger;
     results = json
     usersContainer = document.getElementById("users-container")
       results.forEach(function(user){
@@ -60,6 +59,7 @@ function createUser(body) {
 
 
 function postNewUser(user) {
+  errorDiv = document.getElementById("throwError")
   var body = user.body
     const userCreateParams = {
       method: 'POST',
@@ -68,23 +68,29 @@ function postNewUser(user) {
       },
       body: JSON.stringify(body)
     }
-    debugger
-    fetch('http://localhost:3000/api/v1/users', userCreateParams).then(resp => resp.json())
-    .then(function(){
-      if ((fetch('http://localhost:3000/api/v1/users', userCreateParams).then(resp => resp.json())).ok){
-        retreiveData.then(appendToHTML(user))
-        retreiveData.then(loadNewUser(user))
+    fetch('http://localhost:3000/api/v1/users', userCreateParams).then(resp => {
+      if (resp.ok){
+        return resp.json()
       } else {
-        personName.value = ""
-        username.value = ""
-        email.value = ""
-        throw "What are you doing you lunatic"
+        debugger;
+        errorDiv.innerHTML = `<h1>Username is already taken.</h1>`
+        return false
       }
     })
+    .then(function(json){
+      if (json){
+        appendToHTML(json)
+        loadNewUser(json)
+      }
+    })
+    personName.value = ""
+    username.value = ""
+    email.value = ""
   }
 
-  function appendToHTML(user) {
-    usersContainer.innerHTML += `<li data-userid='${user.body.id}' class='user-element'> ${user.body.username} <i data-action='delete-user' class="em em-scream_cat"></i></li>`
+  function appendToHTML(json) {
+    debugger;
+    usersContainer.innerHTML += `<li data-userid='${json.id}' class='user-element'> ${json.username} <i data-action='delete-user' class="em em-scream_cat"></i></li>`
   }
 
 const adap = new UsersAdapter()
