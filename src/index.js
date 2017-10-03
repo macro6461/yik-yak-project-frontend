@@ -1,10 +1,5 @@
-document.addEventListener('DOMContentLoaded', function(){
-  var usersForm = document.getElementById('new-user-form')
-  var submitButton = document.getElementById('submit')
-  submitButton.addEventListener('click', handleAddUser)
-  loadUsers()
-})
-
+var signUpModal;
+var signInModal;
 var errorDiv;
 var user;
 var baseUrl;
@@ -13,12 +8,44 @@ var email;
 var username;
 var results;
 var usersContainer;
+var existingUser;
+var inOrUp;
+
+
+document.addEventListener('DOMContentLoaded', function(){
+  inOrUp = document.getElementById('inOrUp')
+  var newUserForm = document.getElementById('new-user-form')
+  var existingUserForm = document.getElementById('existing-user-form')
+  var newUserSubmitButton = document.getElementById('signUpSubmit')
+  var existingUserSubmitButton = document.getElementById('signInSubmit')
+  signUpModal = document.getElementById("signUpModal")
+  signInModal = document.getElementById("signInModal")
+  var signUpButton = document.getElementById('signUp')
+  var signInButton = document.getElementById('signIn')
+  signInButton.addEventListener('click', signIn)
+  signUpButton.addEventListener('click', signUp)
+  newUserSubmitButton.addEventListener('click', handleAddUser)
+  existingUserSubmitButton.addEventListener('click', findUser)
+  loadUsers()
+})
+
+function signIn(e){
+  e.preventDefault()
+  signInModal.style.display = "unset"
+}
+
+function signUp(e){
+  e.preventDefault()
+  signUpModal.style.display = "unset"
+}
 
 function loadNewUser(){
+  debugger;
   results[results.length - 1];
   personName.value = ""
   email.value = ""
   username.value = ""
+  hello.innerHTML = `Hello ${user.body.username}!`
 }
 
 function loadUsers(){
@@ -33,13 +60,51 @@ function loadUsers(){
   username.value = ""
 }
 
+function findUser(e){
+  e.preventDefault()
+  debugger;
+  var signOut = document.getElementById("signOut")
+  signOut.addEventListener("click", deleteSession)
+  existingUser = document.getElementById("existing-username")
+  var hello = document.getElementById("hello")
+  fetch("http://localhost:3000/api/v1/sessions").then(res => res.json())
+  .then(json => findRender(json))
+  debugger;
+  results.find(function(result){
+    if (result.username === existingUser.value){
+      console.log(result)
+      hello.innerHTML = `Hello ${result.username}!`
+      localStorage.setItem("username",  `${result.username}`)
+      signUpModal.style.display = "none"
+      signInModal.style.display = "none"
+      inOrUp.style.display = "none"
+      signOut.style.display = "unset"
+      debugger;
+    }
+
+  })
+}
+
+function deleteSession(e){
+  debugger;
+  e.preventDefault()
+  localStorage.removeItem("username")
+  hello.innerHTML = ""
+  signOut.style.display = "none"
+}
+
 function handleAddUser(e) {
+  debugger;
   e.preventDefault()
   const body = {name: personName.value, username: username.value, email: email.value}
-  createUser(body)
-  debugger;
-  document.cookie = `username=${user.username}`
-  postNewUser(user)
+  if (findUser()){
+    console.log(user)
+  } else {
+    createUser(body)
+    debugger;
+    document.cookie = `username=${user.username}`
+    postNewUser(user)
+  }
 }
 
 function createUser(body) {
@@ -60,10 +125,13 @@ function createUser(body) {
       })
   }
 
+  function findRender(json) {
+    results = json
+  }
+
 
 function postNewUser(user) {
-  errorDiv = document.getElementById("throwError")
-  var body = user.body
+    var body = user.body
     const userCreateParams = {
       method: 'POST',
       headers: {
@@ -76,7 +144,6 @@ function postNewUser(user) {
         return resp.json()
       } else {
         debugger;
-        errorDiv.innerHTML = `<h1>Username is already taken.</h1>`
         return false
       }
     })

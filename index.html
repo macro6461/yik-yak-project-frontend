@@ -6,7 +6,10 @@
     <link rel="stylesheet" type="text/css" href="styles/style.css">
   </head>
   <body>
+    <p id="hello">
 
+    </p>
+    <input id="signOut" type="submit" value="Sign Out" style="display: none;" >
 
     <div id="newPost">
       <form id="new-post-form">
@@ -20,9 +23,22 @@
     <div id="posts">
     </div>
 
+      <div id="inOrUp">
+        <h3>Sign up or Sign In</h3>
+        <div id="insideModal">
+          <div class="container">
+            <div id="new-user-container">
+              <form id="new-user-form">
+                <input id="signIn" type="submit" value="Sign In">
+                <input id="signUp" type="submit" value="Sign Up">
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
 
-    <div id="modalDiv">
-      <h3>Sign up or Sign In</h3>
+    <div id="signUpModal" style="display: none;">
+      <h3>Sign Up</h3>
       <div id="insideModal">
         <div class="container">
           <div id="new-user-container">
@@ -33,7 +49,21 @@
               <br>
               email: <input type="text" name="email-body" id="email">
               <br>
-              <input id="submit" type="submit" value="Save user">
+              <input id="signUpSubmit" type="submit" value="Save User">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="signInModal" style="display: none;">
+      <h3>Sign In</h3>
+      <div id="insideModal">
+        <div class="container">
+          <div id="new-user-container">
+            <form id="exisiting-user-form">
+              username: <input type="text" name="username-body" id="existing-username">
+              <input id="signInSubmit" type="submit" value="Sign In">
             </form>
           </div>
         </div>

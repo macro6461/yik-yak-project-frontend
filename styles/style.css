@@ -27,7 +27,11 @@ ul {
   color:red;
 }
 
-#modalDiv {
+button:focus{
+  outline: none;
+}
+
+#inOrUp{
   left: 28.5%;
   z-index: 1;
   border: 1px black dotted;
@@ -36,10 +40,36 @@ ul {
   position: fixed;
   width: 650px;
   text-align: center;
-  margin-top: 12%;
   padding-top: 3px;
   padding-bottom: 15px;
 }
+
+#signUpModal{
+  left: 28.5%;
+  z-index: 1;
+  border: 1px black dotted;
+  color: #0019b2;
+  background-color: #ccffd7;
+  position: fixed;
+  width: 650px;
+  text-align: center;
+  padding-top: 3px;
+  padding-bottom: 15px;
+}
+
+#signInModal{
+  left: 28.5%;
+  z-index: 1;
+  border: 1px black dotted;
+  color: #0019b2;
+  background-color: #ccffd7;
+  position: fixed;
+  width: 650px;
+  text-align: center;
+  padding-top: 3px;
+  padding-bottom: 15px;
+}
+
 
 #insideModal {
   margin: auto;
@@ -63,4 +93,8 @@ input {
   border-radius: 10px;
   margin: 5px;
   input-focus: none;
+}
+
+input:focus{
+  outline: none;
 }
