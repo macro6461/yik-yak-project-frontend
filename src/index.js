@@ -7,13 +7,21 @@ var baseUrl;
 var personName;
 var email;
 var username;
-var results;
+var allUsers;
+var allPosts;
 var usersContainer;
 var existingUser;
 var inOrUp;
+var posts;
+var inputBox;
+var userForPost;
 
 
 document.addEventListener('DOMContentLoaded', function(){
+  var signOut = document.getElementById("signOut")
+  signOut.addEventListener("click", deleteSession)
+  getPostUserButton = document.getElementById("getPostUsers")
+  getPostUserButton.addEventListener("click", postUsers)
   inOrUp = document.getElementById('inOrUp')
   var newUserForm = document.getElementById('new-user-form')
   var existingUserForm = document.getElementById('existing-user-form')
@@ -29,11 +37,14 @@ document.addEventListener('DOMContentLoaded', function(){
   existingUserSubmitButton.addEventListener('click', findUser)
   var postSubmitButton = document.getElementById('postSubmit');
   postSubmit.addEventListener("click", getPostInput);
+  loadPosts()
   loadUsers()
+  displayForModals()
 })
 
 function signIn(e){
   e.preventDefault()
+  inOrUp.style.display = "none"
   signInModal.style.display = "unset"
 }
 
@@ -44,7 +55,7 @@ function signUp(e){
 
 function loadNewUser(){
   debugger;
-  results[results.length - 1]
+  allUsers[allUsers.length - 1]
   personName.value = ""
   email.value = ""
   username.value = ""
@@ -63,37 +74,33 @@ function loadUsers(){
 
 function findUser(e){
   e.preventDefault()
-  debugger;
-  var signOut = document.getElementById("signOut")
-  signOut.addEventListener("click", deleteSession)
   existingUser = document.getElementById("existing-username")
   var hello = document.getElementById("hello")
   fetch("http://localhost:3000/api/v1/sessions").then(res => res.json())
   .then(json => findRender(json))
-  debugger;
-  results.find(function(result){
-    if (result.username === existingUser.value){
+  allUsers.find(function(user){
+    if (user.username === existingUser.value){
+      console.log(user)
+      hello.innerHTML = `Hello ${user.username}!`
       debugger;
-      console.log(result)
-      hello.innerHTML = `Hello ${result.username}!`
-      localStorage.setItem("user_id", `${result.id}`)
-      displayForModals()
+      localStorage.setItem("user_id", `${user.id}`)
+      localStorage.setItem("username", `${user.username}`)
       signOut.style.display = "unset"
-      debugger;
+      displayForModals()
     }
   })
   existingUser.value = ""
 }
 
 function displayForModals(){
-  debugger;
+  debugger
   if (localStorage.length > 0){
     signUpModal.style.display = "none"
     signInModal.style.display = "none"
     inOrUp.style.display = "none"
     signOut.style.display = "unset"
+    hello.innerHTML = `Hello ${localStorage.username}!`
   } else {
-    debugger;
     inOrUp.style.display = "unset"
     signOut.style.display = "none"
   }
@@ -102,13 +109,14 @@ function displayForModals(){
 function deleteSession(e){
   e.preventDefault()
   localStorage.removeItem("user_id")
+  localStorage.removeItem("username")
   hello.innerHTML = ""
   signOut.style.display = "none"
   displayForModals()
 }
 
 function handleAddUser(e) {
-  debugger;
+
   e.preventDefault()
   const body = {name: personName.value, username: username.value, email: email.value}
   createUser(body)
@@ -116,28 +124,25 @@ function handleAddUser(e) {
 }
 
 function createUser(body) {
-  console.log(body)
   user = new User(body)
-  // user.name = body.name
-  // user.username = body.username
-  // user.email = body.email
-  debugger;
+  console.log(user)
 }
 
   function render(json) {
-    results = json
+    allUsers = json
     usersContainer = document.getElementById("users-container")
-      results.forEach(function(user){
+      allUsers.forEach(function(user){
         usersContainer.innerHTML += `<li data-userid='${user.id}' class='user-element'> ${user.username} <i data-action='delete-user' class="em em-scream_cat"></i></li>`
       })
   }
 
   function findRender(json) {
-    results = json
+    allUsers = json
   }
 
 
 function postNewUser(user) {
+  debugger;
     var body = user.body
     const userCreateParams = {
       method: 'POST',
@@ -158,24 +163,54 @@ function postNewUser(user) {
     .then(function(json){
       if (json){
         localStorage.setItem("user_id", `${json.id}`)
-        debugger;
-        appendToHTML(json)
+        localStorage.setItem("username", `${json.username}`)
+        appendUserToHTML(json)
         loadNewUser(json)
       }
     })
   }
 
-  function appendToHTML(json) {
+  function appendUserToHTML(json) {
     debugger;
     usersContainer.innerHTML += `<li data-userid='${json.id}' class='user-element'> ${json.username} <i data-action='delete-user' class="em em-scream_cat"></i></li>`
   }
 
-///////////////////
+//////////////////////////////////////////////////////////////////////////////
+
+function loadPosts(){
+  fetch('http://localhost:3000/api/v1/posts').then(res => res.json())
+  .then(json => renderPosts(json))
+}
+
+function postUsers(){
+  debugger;
+  userForPost = document.getElementById("userForPost")
+  allPosts.forEach(function(post){
+    fetch(`http://localhost:3000/api/v1/posts/${post.id}`).then(res => res.json())
+    .then(json => renderPost(json))
+  })
+}
+
+function renderPost(json){
+    post = json
+    debugger
+    posts.insertAdjacentHTML("afterbegin", `<li data-userid='${json.id}' class='post-element'> ${post.user.username}: ${post.content} <i></i></li>`)
+}
+
+function renderPosts(json) {
+  allPosts = json
+  posts = document.getElementById("posts")
+  // allUsers.forEach(function(user){
+  //
+  // })
+    allPosts.forEach(function(post){
+      posts.insertAdjacentHTML("afterbegin", `<li data-userid='${post.id}' class='post-element'> ${post.user}: ${post.content} <i></i></li>`)
+    })
+}
 
 function getPostInput(e) {
-  debugger;
   e.preventDefault();
-  var inputBox = document.getElementById("content");
+  inputBox = document.getElementById("content");
   var input = inputBox.value
   var userID = parseInt(localStorage.user_id)
   const body = {content: input, user_id: userID}
@@ -184,14 +219,11 @@ function getPostInput(e) {
 }
 
 function createPost(body){
-  debugger;
   console.log(body)
   post = new Post(body)
-  debugger;
 }
 
-function postNewpost(post) {
-  debugger;
+function postNewPost(post) {
     var body = post.body
     const postCreateParams = {
       method: 'POST',
@@ -207,9 +239,27 @@ function postNewpost(post) {
       } else {
         response = false
       }
-      console.log(response)
+      return response
+    })
+    .then(function(json){
+      debugger;
+      if (json){
+        appendPostToHTML(json)
+      }
     })
   }
 
+  function appendPostToHTML(json) {
+    inputBox.value = ""
+    posts.insertAdjacentHTML("afterbegin", `<li data-userid='${json.id}' class='post-element'> ${json.user}: ${json.content} <i></i></li>`)
+}
 
+  // function loadNewPost(){
+  //   debugger;
+  //   allPosts[allPosts.length - 1]
+  //   personName.value = ""
+  //   email.value = ""
+  //   username.value = ""
+  //   displayForModals()
+  // }
 const adap = new UsersAdapter()

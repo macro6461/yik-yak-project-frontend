@@ -37,7 +37,8 @@ button:focus{
 }
 
 #inOrUp{
-  left: 28.5%;
+  left: 25%;
+  top: 40%;
   z-index: 1;
   border: 1px black dotted;
   color: #0019b2;
@@ -50,7 +51,8 @@ button:focus{
 }
 
 #signUpModal{
-  left: 28.5%;
+  left: 25%;
+  top: 40%;
   z-index: 1;
   border: 1px black dotted;
   color: #0019b2;
@@ -63,7 +65,8 @@ button:focus{
 }
 
 #signInModal{
-  left: 28.5%;
+  left: 25%;
+  top: 40%;
   z-index: 1;
   border: 1px black dotted;
   color: #0019b2;
