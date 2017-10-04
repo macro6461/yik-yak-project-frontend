@@ -20,8 +20,6 @@ var userForPost;
 document.addEventListener('DOMContentLoaded', function(){
   var signOut = document.getElementById("signOut")
   signOut.addEventListener("click", deleteSession)
-  getPostUserButton = document.getElementById("getPostUsers")
-  getPostUserButton.addEventListener("click", postUsers)
   inOrUp = document.getElementById('inOrUp')
   var newUserForm = document.getElementById('new-user-form')
   var existingUserForm = document.getElementById('existing-user-form')
@@ -37,9 +35,10 @@ document.addEventListener('DOMContentLoaded', function(){
   existingUserSubmitButton.addEventListener('click', findUser)
   var postSubmitButton = document.getElementById('postSubmit');
   postSubmit.addEventListener("click", getPostInput);
+  displayForModals()
   loadPosts()
   loadUsers()
-  displayForModals()
+  postUsers()
 })
 
 function signIn(e){
@@ -179,11 +178,12 @@ function postNewUser(user) {
 
 function loadPosts(){
   fetch('http://localhost:3000/api/v1/posts').then(res => res.json())
-  .then(json => renderPosts(json))
+  .then(json => postUsers(json))
 }
 
-function postUsers(){
+function postUsers(json){
   debugger;
+  allPosts = json
   userForPost = document.getElementById("userForPost")
   allPosts.forEach(function(post){
     fetch(`http://localhost:3000/api/v1/posts/${post.id}`).then(res => res.json())
@@ -192,6 +192,7 @@ function postUsers(){
 }
 
 function renderPost(json){
+    posts = document.getElementById("posts")
     post = json
     debugger
     posts.insertAdjacentHTML("afterbegin", `<li data-userid='${json.id}' class='post-element'> ${post.user.username}: ${post.content} <i></i></li>`)
@@ -251,7 +252,8 @@ function postNewPost(post) {
 
   function appendPostToHTML(json) {
     inputBox.value = ""
-    posts.insertAdjacentHTML("afterbegin", `<li data-userid='${json.id}' class='post-element'> ${json.user}: ${json.content} <i></i></li>`)
+
+    posts.insertAdjacentHTML("afterbegin", `<li data-userid='${json.id}' class='post-element'> ${localStorage.username}: ${json.content} <i></i></li>`)
 }
 
   // function loadNewPost(){
