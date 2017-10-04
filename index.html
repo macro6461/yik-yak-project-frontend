@@ -14,14 +14,20 @@
     <div id="newPost">
       <form id="new-post-form">
         <br>
-        <input type="text" name="content-body" id="content" value="new post...">
+        <textarea type="text" name="content-body" id="content" value="new post..."></textarea>
         <br>
         <input id="postSubmit" type="submit" value="Post">
       </form>
     </div>
 
     <div id="posts">
+
     </div>
+
+
+<!-- sign up/ in modals -->
+
+
 
       <div id="inOrUp">
         <h3>Sign up or Sign In</h3>
@@ -69,12 +75,16 @@
         </div>
       </div>
     </div>
-      <div id="users-container">
+
+<!-- users container  - optional at this point -->
+
+      <div id="users-container" style="display: none;">
 
       </div>
     </div>
 
     <script type="text/javascript" src="src/components/user.js"></script>
+    <script type="text/javascript" src="src/components/post.js"></script>
     <script type="text/javascript" src="src/adapters/usersAdapter.js"></script>
     <script type="text/javascript" src="src/index.js"></script>
   </body>

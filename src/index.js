@@ -2,6 +2,7 @@ var signUpModal;
 var signInModal;
 var errorDiv;
 var user;
+var post;
 var baseUrl;
 var personName;
 var email;
@@ -26,6 +27,8 @@ document.addEventListener('DOMContentLoaded', function(){
   signUpButton.addEventListener('click', signUp)
   newUserSubmitButton.addEventListener('click', handleAddUser)
   existingUserSubmitButton.addEventListener('click', findUser)
+  var postSubmitButton = document.getElementById('postSubmit');
+  postSubmit.addEventListener("click", getPostInput);
   loadUsers()
 })
 
@@ -41,10 +44,11 @@ function signUp(e){
 
 function loadNewUser(){
   debugger;
-  results[results.length - 1];
+  results[results.length - 1]
   personName.value = ""
   email.value = ""
   username.value = ""
+  displayForModals()
   hello.innerHTML = `Hello ${user.body.username}!`
 }
 
@@ -55,9 +59,6 @@ function loadUsers(){
   baseUrl = 'http://localhost:3000/api/v1/users'
   fetch(baseUrl).then(res => res.json())
   .then(json => render(json))
-  personName.value = ""
-  email.value = ""
-  username.value = ""
 }
 
 function findUser(e){
@@ -72,49 +73,55 @@ function findUser(e){
   debugger;
   results.find(function(result){
     if (result.username === existingUser.value){
+      debugger;
       console.log(result)
       hello.innerHTML = `Hello ${result.username}!`
-      localStorage.setItem("username",  `${result.username}`)
-      signUpModal.style.display = "none"
-      signInModal.style.display = "none"
-      inOrUp.style.display = "none"
+      localStorage.setItem("user_id", `${result.id}`)
+      displayForModals()
       signOut.style.display = "unset"
       debugger;
     }
-
   })
+  existingUser.value = ""
+}
+
+function displayForModals(){
+  debugger;
+  if (localStorage.length > 0){
+    signUpModal.style.display = "none"
+    signInModal.style.display = "none"
+    inOrUp.style.display = "none"
+    signOut.style.display = "unset"
+  } else {
+    debugger;
+    inOrUp.style.display = "unset"
+    signOut.style.display = "none"
+  }
 }
 
 function deleteSession(e){
-  debugger;
   e.preventDefault()
-  localStorage.removeItem("username")
+  localStorage.removeItem("user_id")
   hello.innerHTML = ""
   signOut.style.display = "none"
+  displayForModals()
 }
 
 function handleAddUser(e) {
   debugger;
   e.preventDefault()
   const body = {name: personName.value, username: username.value, email: email.value}
-  if (findUser()){
-    console.log(user)
-  } else {
-    createUser(body)
-    debugger;
-    document.cookie = `username=${user.username}`
-    postNewUser(user)
-  }
+  createUser(body)
+  postNewUser(user)
 }
 
 function createUser(body) {
-  debugger
   console.log(body)
   user = new User(body)
   // user.name = body.name
   // user.username = body.username
   // user.email = body.email
-  return user
+  debugger;
 }
 
   function render(json) {
@@ -140,22 +147,22 @@ function postNewUser(user) {
       body: JSON.stringify(body)
     }
     fetch('http://localhost:3000/api/v1/users', userCreateParams).then(resp => {
+      var response;
       if (resp.ok){
-        return resp.json()
+        response = resp.json()
       } else {
-        debugger;
-        return false
+        response = false
       }
+      return response
     })
     .then(function(json){
       if (json){
+        localStorage.setItem("user_id", `${json.id}`)
+        debugger;
         appendToHTML(json)
         loadNewUser(json)
       }
     })
-    personName.value = ""
-    username.value = ""
-    email.value = ""
   }
 
   function appendToHTML(json) {
@@ -163,6 +170,46 @@ function postNewUser(user) {
     usersContainer.innerHTML += `<li data-userid='${json.id}' class='user-element'> ${json.username} <i data-action='delete-user' class="em em-scream_cat"></i></li>`
   }
 
+///////////////////
+
+function getPostInput(e) {
+  debugger;
+  e.preventDefault();
+  var inputBox = document.getElementById("content");
+  var input = inputBox.value
+  var userID = parseInt(localStorage.user_id)
+  const body = {content: input, user_id: userID}
+  createPost(body)
+  postNewPost(post)
+}
+
+function createPost(body){
+  debugger;
+  console.log(body)
+  post = new Post(body)
+  debugger;
+}
+
+function postNewpost(post) {
+  debugger;
+    var body = post.body
+    const postCreateParams = {
+      method: 'POST',
+      headers: {
+        'Content-Type':'application/json'
+      },
+      body: JSON.stringify(body)
+    }
+    fetch('http://localhost:3000/api/v1/posts', postCreateParams).then(resp => {
+      var response;
+      if (resp.ok){
+        response = resp.json()
+      } else {
+        response = false
+      }
+      console.log(response)
+    })
+  }
 
 
 const adap = new UsersAdapter()
