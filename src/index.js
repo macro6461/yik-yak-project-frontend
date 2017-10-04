@@ -17,6 +17,8 @@ var inputBox;
 var userForPost;
 var sortedPosts;
 var postSubmitButton;
+var title;
+var newPost;
 
 
 document.addEventListener('DOMContentLoaded', function(){
@@ -37,6 +39,9 @@ document.addEventListener('DOMContentLoaded', function(){
   existingUserSubmitButton.addEventListener('click', findUser)
   postSubmitButton = document.getElementById('postSubmit');
   postSubmit.addEventListener("click", getPostInput);
+  posts = document.getElementById("posts")
+  title = document.getElementById("title")
+  newPost = document.getElementById("newPost")
   displayForModals()
   loadPosts()
   loadUsers()
@@ -51,6 +56,7 @@ function signIn(e){
 
 function signUp(e){
   e.preventDefault()
+  inOrUp.style.display = "none"
   signUpModal.style.display = "unset"
 }
 
@@ -96,6 +102,9 @@ function findUser(e){
 function displayForModals(){
   debugger
   if (localStorage.length > 0){
+    title.style.display = "unset"
+    newPost.style.display = "unset"
+    posts.style.display = "unset"
     signUpModal.style.display = "none"
     signInModal.style.display = "none"
     inOrUp.style.display = "none"
@@ -103,9 +112,12 @@ function displayForModals(){
     hello.innerHTML = `Hello ${localStorage.username}!`
     postSubmitButton.style.display= "unset"
   } else {
+    title.style.display = "none"
+    newPost.style.display = "none"
     postSubmitButton.style.display= "none"
     inOrUp.style.display = "unset"
     signOut.style.display = "none"
+    posts.style.display = "none"
   }
 }
 
@@ -187,7 +199,6 @@ function loadPosts(){
 }
 
 function postUsers(json){
-  posts = document.getElementById("posts")
   debugger;
   allPosts = json
   userForPost = document.getElementById("userForPost")

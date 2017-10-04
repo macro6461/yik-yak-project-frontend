@@ -19,17 +19,42 @@ textarea {
   text-align: center;
 }
 
+#title {
+  color: blue;
+  font-family: "Helvetica";
+  text-align: center;
+  font-weight: regular;
+  border-bottom: 2px dotted blue;
+  font-size: 50px;
+}
+
+#header {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  width: 88%;
+  text-align: center;
+  margin: auto;
+  display: block;
+}
+
 #posts {
   text-align: left !important;
+  color: blue;
 }
 
 #posts li {
   list-style-type: none;
   margin-top: 15px;
   margin-bottom: 15px;
-  border-radius: 25px;
-  background-color: #d9d9fc;
-  padding: 16px;
+  border-radius: 30px;
+  border: blue solid 1px;
+  background-color: #dcdbff;
+  /*background-color: #d9d9fc;*/
+  padding: 20px;
+}
+
+#posts li:hover {
+  background-color: #c4c9ff;
 }
 
 #content {
@@ -57,45 +82,45 @@ button:focus{
 }
 
 #inOrUp{
-  left: 27.5%;
+  left: 20%;
   top: 40%;
   z-index: 1;
-  border: 5px #1851bc solid;
+  border: 2px blue dotted;
   color: #0019b2;
   background-color: #ccffd7;
   border-radius: 10px;
   position: fixed;
-  width: 600px;
+  width: 60%;
   text-align: center;
   padding-top: 20px;
   padding-bottom: 30px;
 }
 
 #signUpModal{
-  left: 27.5%;
+  left: 20%;
   top: 40%;
   z-index: 1;
-  border: 5px #1851bc solid;
+  border: 2px blue dotted;
   color: #0019b2;
   background-color: #ccffd7;
   border-radius: 10px;
   position: fixed;
-  width: 600px;
+  width: 60%;
   text-align: center;
   padding-top: 20px;
   padding-bottom: 30px;
 }
 
 #signInModal{
-  left: 27.5%;
+  left: 20%;
   top: 40%;
   z-index: 1;
-  border: 5px #1851bc solid;
+  border: 2px blue dotted;
   color: #0019b2;
   background-color: #ccffd7;
   border-radius: 10px;
   position: fixed;
-  width: 600px;
+  width: 60%;
   text-align: center;
   padding-top: 20px;
   padding-bottom: 30px;
@@ -127,6 +152,14 @@ input {
   border-radius: 10px;
   margin: 5px;
   input-focus: none;
+  border: 1px black solid;
+  background-color: white;
+  font-size: 12px;
+}
+
+input:hover {
+  background-color: #dcdbff;
+  border: 1px dotted black;
 }
 
 input:focus{
