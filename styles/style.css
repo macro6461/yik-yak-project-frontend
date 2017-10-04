@@ -1,7 +1,7 @@
 body {
    font-family: "Helvetica", Helvetica, Arial, "Lucida Grande", sans-serif;
    line-height: 1.6em;
-   font-size: 1.3em;
+   font-size: 1em;
 }
 
 a {
@@ -9,12 +9,32 @@ a {
    }
 
 textarea {
-  font-size: 1.5em;
+  font-size: 0.9em;
+}
+
+#entire-container {
+  width: 38%;
+  display: block;
+  margin: auto;
+  text-align: center;
+}
+
+#posts {
+  text-align: left !important;
+}
+
+#posts li {
+  list-style-type: none;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  border-radius: 25px;
+  background-color: #d9d9fc;
+  padding: 16px;
 }
 
 #content {
-  width: 30%;
-  padding-bottom: 150px;
+  width: 60%;
+  padding-bottom: 88px;
 }
 
 #throwError{
@@ -37,45 +57,48 @@ button:focus{
 }
 
 #inOrUp{
-  left: 25%;
+  left: 27.5%;
   top: 40%;
   z-index: 1;
-  border: 1px black dotted;
+  border: 5px #1851bc solid;
   color: #0019b2;
   background-color: #ccffd7;
+  border-radius: 10px;
   position: fixed;
-  width: 650px;
+  width: 600px;
   text-align: center;
-  padding-top: 3px;
-  padding-bottom: 15px;
+  padding-top: 20px;
+  padding-bottom: 30px;
 }
 
 #signUpModal{
-  left: 25%;
+  left: 27.5%;
   top: 40%;
   z-index: 1;
-  border: 1px black dotted;
+  border: 5px #1851bc solid;
   color: #0019b2;
   background-color: #ccffd7;
+  border-radius: 10px;
   position: fixed;
-  width: 650px;
+  width: 600px;
   text-align: center;
-  padding-top: 3px;
-  padding-bottom: 15px;
+  padding-top: 20px;
+  padding-bottom: 30px;
 }
 
 #signInModal{
-  left: 25%;
+  left: 27.5%;
   top: 40%;
   z-index: 1;
-  border: 1px black dotted;
+  border: 5px #1851bc solid;
   color: #0019b2;
   background-color: #ccffd7;
+  border-radius: 10px;
   position: fixed;
-  width: 650px;
+  width: 600px;
   text-align: center;
-  padding-top: 3px;
-  padding-bottom: 15px;
+  padding-top: 20px;
+  padding-bottom: 30px;
 }
 
 
@@ -98,12 +121,18 @@ button:focus{
 }
 
 input {
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
   border-radius: 10px;
   margin: 5px;
   input-focus: none;
 }
 
+input:focus{
+  outline: none;
+}
+
 textarea:focus{
   outline: none;
-
 }

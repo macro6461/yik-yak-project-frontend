@@ -15,6 +15,8 @@ var inOrUp;
 var posts;
 var inputBox;
 var userForPost;
+var sortedPosts;
+var postSubmitButton;
 
 
 document.addEventListener('DOMContentLoaded', function(){
@@ -33,12 +35,12 @@ document.addEventListener('DOMContentLoaded', function(){
   signUpButton.addEventListener('click', signUp)
   newUserSubmitButton.addEventListener('click', handleAddUser)
   existingUserSubmitButton.addEventListener('click', findUser)
-  var postSubmitButton = document.getElementById('postSubmit');
+  postSubmitButton = document.getElementById('postSubmit');
   postSubmit.addEventListener("click", getPostInput);
   displayForModals()
   loadPosts()
   loadUsers()
-  postUsers()
+  // postUsers()
 })
 
 function signIn(e){
@@ -99,7 +101,9 @@ function displayForModals(){
     inOrUp.style.display = "none"
     signOut.style.display = "unset"
     hello.innerHTML = `Hello ${localStorage.username}!`
+    postSubmitButton.style.display= "unset"
   } else {
+    postSubmitButton.style.display= "none"
     inOrUp.style.display = "unset"
     signOut.style.display = "none"
   }
@@ -177,36 +181,21 @@ function postNewUser(user) {
 //////////////////////////////////////////////////////////////////////////////
 
 function loadPosts(){
+  debugger;
   fetch('http://localhost:3000/api/v1/posts').then(res => res.json())
   .then(json => postUsers(json))
 }
 
 function postUsers(json){
+  posts = document.getElementById("posts")
   debugger;
   allPosts = json
   userForPost = document.getElementById("userForPost")
+  debugger;
   allPosts.forEach(function(post){
-    fetch(`http://localhost:3000/api/v1/posts/${post.id}`).then(res => res.json())
-    .then(json => renderPost(json))
-  })
-}
-
-function renderPost(json){
-    posts = document.getElementById("posts")
-    post = json
     debugger
     posts.insertAdjacentHTML("afterbegin", `<li data-userid='${json.id}' class='post-element'> ${post.user.username}: ${post.content} <i></i></li>`)
-}
-
-function renderPosts(json) {
-  allPosts = json
-  posts = document.getElementById("posts")
-  // allUsers.forEach(function(user){
-  //
-  // })
-    allPosts.forEach(function(post){
-      posts.insertAdjacentHTML("afterbegin", `<li data-userid='${post.id}' class='post-element'> ${post.user}: ${post.content} <i></i></li>`)
-    })
+  })
 }
 
 function getPostInput(e) {
@@ -251,17 +240,9 @@ function postNewPost(post) {
   }
 
   function appendPostToHTML(json) {
+    debugger;
     inputBox.value = ""
-
     posts.insertAdjacentHTML("afterbegin", `<li data-userid='${json.id}' class='post-element'> ${localStorage.username}: ${json.content} <i></i></li>`)
 }
 
-  // function loadNewPost(){
-  //   debugger;
-  //   allPosts[allPosts.length - 1]
-  //   personName.value = ""
-  //   email.value = ""
-  //   username.value = ""
-  //   displayForModals()
-  // }
 const adap = new UsersAdapter()
