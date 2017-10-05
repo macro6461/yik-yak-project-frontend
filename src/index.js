@@ -220,10 +220,11 @@ function postUsers(json){
     <ul id=${countTwo}></ul> </li>`)
     postNewCommentButton = document.getElementById(`${count}`)
     postNewCommentButton.addEventListener("click", getCommentInput)
-    debugger;
     newCommentInputBox = document.getElementById(`${countTwo}`)
+    debugger;
     post.comments.map(function(comment){
-        document.getElementById(`${countTwo}`).innerHTML += `<li class="comment">@${comment.username}: ${comment.content}</li>`
+      debugger;
+        document.getElementById(`${post.id}`).innerHTML += `<li class="comment">@${comment.username}: ${comment.content}</li>`
       })
     })
 }
@@ -285,7 +286,7 @@ function loadComments(){
 }
 
 function comments(json){
-
+  debugger;
   allComments = json
   userForComment = document.getElementById("userForPost")
 
