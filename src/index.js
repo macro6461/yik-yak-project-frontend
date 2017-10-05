@@ -20,6 +20,13 @@ var postSubmitButton;
 var title;
 var newPost;
 var commentsDiv;
+var commentUser;
+var commentInput;
+var openCommentButton;
+var count;
+var countTwo;
+var postNewCommentButton;
+var newCommentInputBox;
 
 
 document.addEventListener('DOMContentLoaded', function(){
@@ -43,10 +50,10 @@ document.addEventListener('DOMContentLoaded', function(){
   posts = document.getElementById("posts")
   title = document.getElementById("title")
   newPost = document.getElementById("newPost")
+  debugger;
   displayForModals()
   loadPosts()
   commentsDiv = document.getElementById("comments")
-  openCommentButton = document.getElementById("openComments")
 
   // loadComments()
   loadUsers()
@@ -66,7 +73,7 @@ function signUp(e){
 }
 
 function loadNewUser(){
-  debugger;
+
   allUsers[allUsers.length - 1]
   personName.value = ""
   email.value = ""
@@ -94,7 +101,7 @@ function findUser(e){
     if (user.username === existingUser.value){
       console.log(user)
       hello.innerHTML = `Hello ${user.username}!`
-      debugger;
+
       localStorage.setItem("user_id", `${user.id}`)
       localStorage.setItem("username", `${user.username}`)
       signOut.style.display = "unset"
@@ -105,8 +112,7 @@ function findUser(e){
 }
 
 function displayForModals(){
-  debugger
-  if (localStorage.length > 0){
+    if (localStorage.length > 0){
     title.style.display = "unset"
     newPost.style.display = "unset"
     posts.style.display = "unset"
@@ -162,7 +168,7 @@ function createUser(body) {
 
 
 function postNewUser(user) {
-  debugger;
+
     var body = user.body
     const userCreateParams = {
       method: 'POST',
@@ -198,15 +204,28 @@ function loadPosts(){
 }
 
 function postUsers(json){
+  count = 0
+  countTwo = 1
   allPosts = json
   userForPost = document.getElementById("userForPost")
   allPosts.forEach(function(post){
-    posts.insertAdjacentHTML("afterbegin", `<li id='${post.user.id}' class='post-element'> @${post.user.username}: ${post.content} <br>comments: <ul id= ${post.id}"-comments"></ul><br><input id="openComments" type="submit" value="Comment"> </li>`)
+    debugger;
+    count += 2
+    countTwo += 2
+    posts.insertAdjacentHTML("afterbegin", `<li id='${post.id}' class='post-element'> @${post.user.username}: ${post.content}
+    <form id="commentForm">
+      <input data-id=${post.id} id=${count} type="submit" value="Comment">
+        <input id=${countTwo} type="text" >
+    </form>
+    <ul id=${countTwo}></ul> </li>`)
+    postNewCommentButton = document.getElementById(`${count}`)
+    postNewCommentButton.addEventListener("click", getCommentInput)
+    debugger;
+    newCommentInputBox = document.getElementById(`${countTwo}`)
     post.comments.map(function(comment){
-      debugger;
-      document.getElementById(`${post.id}`).innerHTML += `<li class="comment">@${comment.user}: ${comment.content}</li>`
+        document.getElementById(`${countTwo}`).innerHTML += `<li class="comment">@${comment.username}: ${comment.content}</li>`
+      })
     })
-  })
 }
 
 function getPostInput(e) {
@@ -243,7 +262,6 @@ function postNewPost(post) {
       return response
     })
     .then(function(json){
-      debugger;
       if (json){
         appendPostToHTML(json)
       }
@@ -251,7 +269,6 @@ function postNewPost(post) {
   }
 
   function appendPostToHTML(json) {
-    debugger;
     inputBox.value = ""
     posts.insertAdjacentHTML("afterbegin", `<li data-userid='${json.id}' class='post-element'> ${localStorage.username}: ${json.content} <input id="openComments" type="submit" value="Comment"> </li>`)
 }
@@ -259,35 +276,42 @@ function postNewPost(post) {
 //////////////////////////////////////////////////////////////////////////////
 
 function loadComments(){
-  debugger;
+
   fetch('http://localhost:3000/api/v1/comments').then(res => res.json())
   .then(json => comments(json))
 }
 
 function comments(json){
-  debugger;
+
   allComments = json
   userForComment = document.getElementById("userForPost")
-  debugger;
+
   allComments.forEach(function(comment){
-    debugger
-    commentsDiv.insertAdjacentHTML("afterbegin", `<li data-userid='${comment.id}' class='comment-element'> ${comment.user.username}: ${comment.content} </li>`)
+        commentsDiv.insertAdjacentHTML("afterbegin", `<li data-userid='${comment.id}' class='comment-element'> ${comment.user.username}: ${comment.content} </li>`)
   })
 }
 
 function getCommentInput(e) {
+  debugger;
   e.preventDefault();
-  inputBox = document.getElementById("content");
-  var input = inputBox.value
+
+  commentInput = document.getElementById(`${parseInt(this.id)}`);
+  var input = commentInput.value
   var userID = parseInt(localStorage.user_id)
-  const body = {content: input, user_id: userID}
-  createPost(body)
-  postNewPost(post)
+  var postID = parseInt(e.target.id)
+  const body = {content: input, user_id: userID, post_id: postID}
+  createComment(body)
+  postNewComment(comment)
 }
 
 function createComment(body){
   console.log(body)
   post = new Post(body)
+}
+
+function showComments(){
+  // document.getElementById(`${parseInt(this.children[1].id)}`).style.display = "unset"
+
 }
 
 
