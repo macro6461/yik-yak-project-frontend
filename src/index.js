@@ -185,11 +185,6 @@ function postNewUser(user) {
     })
   }
 
-  function appendUserToHTML(json) {
-    debugger;
-    usersContainer.innerHTML += `<li data-userid='${json.id}' class='user-element'> ${json.username} <i data-action='delete-user' class="em em-scream_cat"></i></li>`
-  }
-
 //////////////////////////////////////////////////////////////////////////////
 
 function loadPosts(){
@@ -205,7 +200,7 @@ function postUsers(json){
   debugger;
   allPosts.forEach(function(post){
     debugger
-    posts.insertAdjacentHTML("afterbegin", `<li data-userid='${json.id}' class='post-element'> ${post.user.username}: ${post.content} <i></i></li>`)
+    posts.insertAdjacentHTML("afterbegin", `<li data-userid='${post.id}' class='post-element'> ${post.user.username}: ${post.content} <br><input id="openComments" type="submit" value="Comment"> </li>`)
   })
 }
 
@@ -253,7 +248,25 @@ function postNewPost(post) {
   function appendPostToHTML(json) {
     debugger;
     inputBox.value = ""
-    posts.insertAdjacentHTML("afterbegin", `<li data-userid='${json.id}' class='post-element'> ${localStorage.username}: ${json.content} <i></i></li>`)
+    posts.insertAdjacentHTML("afterbegin", `<li data-userid='${json.id}' class='post-element'> ${localStorage.username}: ${json.content} <input id="openComments" type="submit" value="Comment"> </li>`)
 }
+
+//////////////////////////////////////////////////////////////////////////////
+
+function getPostInput(e) {
+  e.preventDefault();
+  inputBox = document.getElementById("content");
+  var input = inputBox.value
+  var userID = parseInt(localStorage.user_id)
+  const body = {content: input, user_id: userID}
+  createPost(body)
+  postNewPost(post)
+}
+
+function createComment(body){
+  console.log(body)
+  post = new Post(body)
+}
+
 
 const adap = new UsersAdapter()

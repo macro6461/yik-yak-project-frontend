@@ -12,6 +12,10 @@ textarea {
   font-size: 0.9em;
 }
 
+#openComments{
+  float: right;
+}
+
 #entire-container {
   width: 38%;
   display: block;
@@ -46,11 +50,11 @@ textarea {
   list-style-type: none;
   margin-top: 15px;
   margin-bottom: 15px;
-  border-radius: 30px;
+  border-radius: 35px;
   border: blue solid 1px;
   background-color: #dcdbff;
   /*background-color: #d9d9fc;*/
-  padding: 20px;
+  padding: 40px;
 }
 
 #posts li:hover {
