@@ -46,6 +46,17 @@ textarea {
   color: blue;
 }
 
+li.comment {
+  list-style-type: none;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  border: blue solid 1px;
+  background-color: #dcdbff;
+  /*background-color: #d9d9fc;*/
+  padding: 10px;
+}
+
 #posts li {
   list-style-type: none;
   margin-top: 15px;
@@ -55,6 +66,22 @@ textarea {
   background-color: #dcdbff;
   /*background-color: #d9d9fc;*/
   padding: 40px;
+}
+
+
+li.comment {
+  list-style-type: none;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  border-radius: 10px !important;
+  border: blue solid 1px;
+  background-color: #c4c9ff !important;
+  /*background-color: #d9d9fc;*/
+  padding: 10px !important;
+}
+
+li.comment:hover{
+  background-color: #dcdbff !important;
 }
 
 #posts li:hover {

@@ -19,6 +19,7 @@ var sortedPosts;
 var postSubmitButton;
 var title;
 var newPost;
+var commentsDiv;
 
 
 document.addEventListener('DOMContentLoaded', function(){
@@ -44,6 +45,10 @@ document.addEventListener('DOMContentLoaded', function(){
   newPost = document.getElementById("newPost")
   displayForModals()
   loadPosts()
+  commentsDiv = document.getElementById("comments")
+  openCommentButton = document.getElementById("openComments")
+
+  // loadComments()
   loadUsers()
   // postUsers()
 })
@@ -188,19 +193,19 @@ function postNewUser(user) {
 //////////////////////////////////////////////////////////////////////////////
 
 function loadPosts(){
-  debugger;
   fetch('http://localhost:3000/api/v1/posts').then(res => res.json())
   .then(json => postUsers(json))
 }
 
 function postUsers(json){
-  debugger;
   allPosts = json
   userForPost = document.getElementById("userForPost")
-  debugger;
   allPosts.forEach(function(post){
-    debugger
-    posts.insertAdjacentHTML("afterbegin", `<li data-userid='${post.id}' class='post-element'> ${post.user.username}: ${post.content} <br><input id="openComments" type="submit" value="Comment"> </li>`)
+    posts.insertAdjacentHTML("afterbegin", `<li id='${post.user.id}' class='post-element'> @${post.user.username}: ${post.content} <br>comments: <ul id= ${post.id}"-comments"></ul><br><input id="openComments" type="submit" value="Comment"> </li>`)
+    post.comments.map(function(comment){
+      debugger;
+      document.getElementById(`${post.id}`).innerHTML += `<li class="comment">@${comment.user}: ${comment.content}</li>`
+    })
   })
 }
 
@@ -253,7 +258,24 @@ function postNewPost(post) {
 
 //////////////////////////////////////////////////////////////////////////////
 
-function getPostInput(e) {
+function loadComments(){
+  debugger;
+  fetch('http://localhost:3000/api/v1/comments').then(res => res.json())
+  .then(json => comments(json))
+}
+
+function comments(json){
+  debugger;
+  allComments = json
+  userForComment = document.getElementById("userForPost")
+  debugger;
+  allComments.forEach(function(comment){
+    debugger
+    commentsDiv.insertAdjacentHTML("afterbegin", `<li data-userid='${comment.id}' class='comment-element'> ${comment.user.username}: ${comment.content} </li>`)
+  })
+}
+
+function getCommentInput(e) {
   e.preventDefault();
   inputBox = document.getElementById("content");
   var input = inputBox.value
