@@ -269,7 +269,11 @@ function postNewPost(post) {
 
   function appendPostToHTML(json) {
     inputBox.value = ""
-    posts.insertAdjacentHTML("afterbegin", `<li data-userid='${json.id}' class='post-element'> ${localStorage.username}: ${json.content} <input id="openComments" type="submit" value="Comment"> </li>`)
+    posts.insertAdjacentHTML("afterbegin", `<li data-userid='${json.id}' class='post-element'> ${localStorage.username}: ${json.content} <form id="commentForm">
+      <input data-id=${post.id} id=${count} type="submit" value="Comment">
+        <input id=${countTwo} type="text" >
+    </form>
+    <ul id=${countTwo}></ul> </li>`)
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -299,7 +303,7 @@ function getCommentInput(e) {
   var thisCommentUsername = localStorage.username
   var userID = parseInt(localStorage.user_id)
   var postID = parseInt(e.target.id)
-  const body = {content: input, user_id: userID, post_id: postID}
+  const body = {content: input, user_id: userID, post_id: postID, username: thisCommentUsername}
   createComment(body)
   postNewComment(comment)
 }
