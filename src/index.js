@@ -27,6 +27,7 @@ var count;
 var countTwo;
 var postNewCommentButton;
 var newCommentInputBox;
+var response;
 
 
 document.addEventListener('DOMContentLoaded', function(){
@@ -178,7 +179,6 @@ function postNewUser(user) {
       body: JSON.stringify(body)
     }
     fetch('http://localhost:3000/api/v1/users', userCreateParams).then(resp => {
-      var response;
       if (resp.ok){
         response = resp.json()
       } else {
@@ -253,7 +253,6 @@ function postNewPost(post) {
       body: JSON.stringify(body)
     }
     fetch('http://localhost:3000/api/v1/posts', postCreateParams).then(resp => {
-      var response;
       if (resp.ok){
         response = resp.json()
       } else {
@@ -295,8 +294,9 @@ function getCommentInput(e) {
   debugger;
   e.preventDefault();
 
-  commentInput = document.getElementById(`${parseInt(this.id)}`);
+  commentInput = document.getElementById(`${parseInt(this.nextElementSibling.id)}`);
   var input = commentInput.value
+  var thisCommentUsername = localStorage.username
   var userID = parseInt(localStorage.user_id)
   var postID = parseInt(e.target.id)
   const body = {content: input, user_id: userID, post_id: postID}
@@ -306,12 +306,34 @@ function getCommentInput(e) {
 
 function createComment(body){
   console.log(body)
-  post = new Post(body)
+  comment = new Comment(body)
 }
 
-function showComments(){
-  // document.getElementById(`${parseInt(this.children[1].id)}`).style.display = "unset"
-
+function postNewComment(comment) {
+    var body = comment.body
+    fetch('http://localhost:3000/api/v1/comments', {
+      method: 'POST',
+      headers: {
+        'Content-Type':'application/json'
+      },
+      body: JSON.stringify(body)
+    }).then(resp => {
+      if (resp.ok){
+        response = resp.json()
+      } else {
+        response = false
+      }
+      return response
+    })
+    .then(function(json){
+      if (json){
+        console.log(json)
+      }
+    })
+  }
+function appendCommentToHTML(){
+  commentInputBox.value = ""
+  .insertAdjacentHTML("afterbegin", `<li data-userid='${json.id}' class='post-element'> ${localStorage.username}: ${json.content} <input id="openComments" type="submit" value="Comment"> </li>`)
 }
 
 
