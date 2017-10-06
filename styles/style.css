@@ -8,6 +8,10 @@ a {
     color:#97659;
    }
 
+  img{
+    width: 100%;
+  }
+
 textarea {
   font-size: 0.9em;
 }

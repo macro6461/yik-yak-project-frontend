@@ -113,7 +113,7 @@ function findUser(e){
 
 function displayForModals(){
     if (localStorage.length > 0){
-    title.style.display = "unset"
+    // title.style.display = "unset"
     newPost.style.display = "unset"
     posts.style.display = "unset"
     signUpModal.style.display = "none"
@@ -123,7 +123,7 @@ function displayForModals(){
     hello.innerHTML = `Hello ${localStorage.username}!`
     postSubmitButton.style.display= "unset"
   } else {
-    title.style.display = "none"
+    // title.style.display = "none"
     newPost.style.display = "none"
     postSubmitButton.style.display= "none"
     inOrUp.style.display = "unset"
