@@ -344,7 +344,7 @@ function postNewComment(matt) {
 function appendCommentToHTML(json){
   debugger;
   var commentInsert = document.getElementById(`a${json.post_id}`)
-  commentInsert.insertAdjacentHTML("afterbegin", `<li data-userid='hhh${json.id}' class='post-element'> ${localStorage.username}: ${json.content}  </li>`)
+  commentInsert.insertAdjacentHTML("afterbegin", `<li data-userid='hhh${json.id}' class="comment"> @${localStorage.username}: ${json.content}  </li>`)
 }
 
 
