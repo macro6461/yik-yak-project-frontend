@@ -86,7 +86,7 @@ function loadUsers(){
   personName = document.getElementById('person-name')
   username = document.getElementById('username')
   email = document.getElementById('email')
-  baseUrl = 'http://localhost:3000/api/v1/users'
+  baseUrl = 'https://postd-backend.herokuapp.com/api/v1/users'
   fetch(baseUrl).then(res => res.json())
   .then(json => render(json))
 }
@@ -95,7 +95,7 @@ function findUser(e){
   e.preventDefault()
   existingUser = document.getElementById("existing-username")
   var hello = document.getElementById("hello")
-  fetch("http://localhost:3000/api/v1/sessions").then(res => res.json())
+  fetch("https://postd-backend.herokuapp.com/api/v1/sessions").then(res => res.json())
   .then(json => findRender(json))
   allUsers.find(function(user){
     if (user.username === existingUser.value){
@@ -177,7 +177,7 @@ function postNewUser(user) {
       },
       body: JSON.stringify(body)
     }
-    fetch('http://localhost:3000/api/v1/users', userCreateParams).then(resp => {
+    fetch('https://postd-backend.herokuapp.com/api/v1/users', userCreateParams).then(resp => {
       if (resp.ok){
         response = resp.json()
       } else {
@@ -198,7 +198,7 @@ function postNewUser(user) {
 //////////////////////////////////////////////////////////////////////////////
 
 function loadPosts(){
-  fetch('http://localhost:3000/api/v1/posts').then(res => res.json())
+  fetch('https://postd-backend.herokuapp.com/api/v1/posts').then(res => res.json())
   .then(json => postUsers(json))
 }
 
@@ -256,7 +256,7 @@ function postNewPost(post) {
       },
       body: JSON.stringify(body)
     }
-    fetch('http://localhost:3000/api/v1/posts', postCreateParams).then(resp => {
+    fetch('https://postd-backend.herokuapp.com/api/v1/posts', postCreateParams).then(resp => {
       if (resp.ok){
         response = resp.json()
       } else {
@@ -284,7 +284,7 @@ function postNewPost(post) {
 
 function loadComments(){
 
-  fetch('http://localhost:3000/api/v1/comments').then(res => res.json())
+  fetch('https://postd-backend.herokuapp.com/api/v1/comments').then(res => res.json())
   .then(json => comments(json))
 }
 
@@ -320,7 +320,7 @@ function getCommentInput(e) {
 
 function postNewComment(matt) {
   debugger;
-    fetch('http://localhost:3000/api/v1/comments', {
+    fetch('https://postd-backend.herokuapp.com/api/v1/comments', {
       method: 'POST',
       headers: {
         'Content-Type':'application/json'

@@ -1,6 +1,6 @@
 class UsersAdapter {
   constructor() {
-    this.baseUrl = 'http://localhost:3000/api/v1/users'
+    this.baseUrl = 'https://postd-backend.herokuapp.com/api/v1/users'
   }
 
   getUsers() {
