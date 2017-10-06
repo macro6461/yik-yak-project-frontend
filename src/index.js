@@ -21,7 +21,7 @@ var title;
 var newPost;
 var commentsDiv;
 var commentUser;
-var commentInput;
+var thisCommentInput;
 var openCommentButton;
 var count;
 var countTwo;
@@ -51,13 +51,11 @@ document.addEventListener('DOMContentLoaded', function(){
   posts = document.getElementById("posts")
   title = document.getElementById("title")
   newPost = document.getElementById("newPost")
-  debugger;
-  displayForModals()
-  loadPosts()
-  commentsDiv = document.getElementById("comments")
 
-  // loadComments()
+  displayForModals()
   loadUsers()
+  loadPosts()
+  // loadComments()
   // postUsers()
 })
 
@@ -190,7 +188,7 @@ function postNewUser(user) {
       if (json){
         localStorage.setItem("user_id", `${json.id}`)
         localStorage.setItem("username", `${json.username}`)
-        appendUserToHTML(json)
+        // appendUserToHTML(json)
         loadNewUser(json)
       }
     })
@@ -209,24 +207,28 @@ function postUsers(json){
   allPosts = json
   userForPost = document.getElementById("userForPost")
   allPosts.forEach(function(post){
-    debugger;
+
     count += 2
     countTwo += 2
     posts.insertAdjacentHTML("afterbegin", `<li id='${post.id}' class='post-element'> @${post.user.username}: ${post.content}
-    <form id="commentForm">
-      <input data-id=${post.id} id=${count} type="submit" value="Comment">
-        <input id=${countTwo} type="text" >
+    <form class="commentForm">
+      <input data-id=${post.id} class="commentButtonForEventlistener" id="commentCount${count}" type="submit" value="Comment">
+        <input id="commentInput${countTwo}" type="text" >
     </form>
-    <ul id=${countTwo}></ul> </li>`)
-    postNewCommentButton = document.getElementById(`${count}`)
-    postNewCommentButton.addEventListener("click", getCommentInput)
+    <ul id="a${post.id}"></ul> </li>`)
     newCommentInputBox = document.getElementById(`${countTwo}`)
-    debugger;
     post.comments.map(function(comment){
-      debugger;
         document.getElementById(`${post.id}`).innerHTML += `<li class="comment">@${comment.username}: ${comment.content}</li>`
       })
     })
+    applyEventListeners()
+}
+
+function applyEventListeners(){
+  postNewCommentButtons = document.getElementsByClassName("commentButtonForEventlistener")
+  for (var i = 0; i < postNewCommentButtons.length; i++){
+    postNewCommentButtons[i].addEventListener("click", getCommentInput)
+  }
 }
 
 function getPostInput(e) {
@@ -270,11 +272,11 @@ function postNewPost(post) {
 
   function appendPostToHTML(json) {
     inputBox.value = ""
-    posts.insertAdjacentHTML("afterbegin", `<li data-userid='${json.id}' class='post-element'> ${localStorage.username}: ${json.content} <form id="commentForm">
+    posts.insertAdjacentHTML("afterbegin", `<li data-userid='${json.id}' class='post-element'> @${localStorage.username}: ${json.content} <form class="commentForm">
       <input data-id=${post.id} id=${count} type="submit" value="Comment">
-        <input id=${countTwo} type="text" >
+        <input id=${countTwo + 2} type="text" >
     </form>
-    <ul id=${countTwo}></ul> </li>`)
+    <ul id="a${post.id}"></ul> </li>`)
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -286,7 +288,7 @@ function loadComments(){
 }
 
 function comments(json){
-  debugger;
+
   allComments = json
   userForComment = document.getElementById("userForPost")
 
@@ -296,32 +298,32 @@ function comments(json){
 }
 
 function getCommentInput(e) {
-  debugger;
   e.preventDefault();
-
-  commentInput = document.getElementById(`${parseInt(this.nextElementSibling.id)}`);
-  var input = commentInput.value
+  debugger;
+  thisCommentInput = document.getElementById(`${this.nextElementSibling.id}`);
+  var input = thisCommentInput.value
   var thisCommentUsername = localStorage.username
   var userID = parseInt(localStorage.user_id)
-  var postID = parseInt(e.target.id)
-  const body = {content: input, user_id: userID, post_id: postID, username: thisCommentUsername}
-  createComment(body)
-  postNewComment(comment)
+  var postID = parseInt(e.target.dataset.id)
+  const body = {content: input, user_id: userID, post_id: postID}
+  // createComment(body)
+  debugger;
+  postNewComment(body)
 }
 
-function createComment(body){
-  console.log(body)
-  comment = new Comment(body)
-}
+// function createComment(body){
+//   console.log(body)
+//   comment = new Comment(body)
+// }
 
-function postNewComment(comment) {
-    var body = comment.body
+function postNewComment(matt) {
+  debugger;
     fetch('http://localhost:3000/api/v1/comments', {
       method: 'POST',
       headers: {
         'Content-Type':'application/json'
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify(matt)
     }).then(resp => {
       if (resp.ok){
         response = resp.json()
@@ -332,13 +334,17 @@ function postNewComment(comment) {
     })
     .then(function(json){
       if (json){
-        console.log(json)
+        debugger;
+        appendCommentToHTML(json)
       }
     })
   }
-function appendCommentToHTML(){
-  commentInputBox.value = ""
-  .insertAdjacentHTML("afterbegin", `<li data-userid='${json.id}' class='post-element'> ${localStorage.username}: ${json.content} <input id="openComments" type="submit" value="Comment"> </li>`)
+
+
+function appendCommentToHTML(json){
+  debugger;
+  var commentInsert = document.getElementById(`a${json.post_id}`)
+  commentInsert.insertAdjacentHTML("afterbegin", `<li data-userid='hhh${json.id}' class='post-element'> ${localStorage.username}: ${json.content}  </li>`)
 }
 
 
