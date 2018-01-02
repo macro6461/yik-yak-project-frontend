@@ -240,6 +240,7 @@ function getPostInput(e) {
   const body = {content: input, user_id: userID}
   createPost(body)
   postNewPost(post)
+  console.log("Yup")
 }
 
 function createPost(body){
