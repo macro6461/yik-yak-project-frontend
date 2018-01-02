@@ -209,6 +209,22 @@ input {
   font-size: 12px;
 }
 
+.delete-button{
+  
+}
+
+textarea {
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 10px;
+    margin: 5px;
+    input-focus: none;
+    border: 1px black solid;
+    background-color: white;
+    font-size: 12px;
+}
+
 input:hover {
   background-color: #dcdbff;
   border: 1px dotted black;
